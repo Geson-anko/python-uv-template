@@ -20,19 +20,16 @@ echo "Starting package rename:"
 echo "Project name: $CURRENT_PROJECT_NAME → $NEW_PROJECT_NAME"
 echo "Package name: $CURRENT_PACKAGE_NAME → $NEW_PACKAGE_NAME"
 
-# Determine sed command based on OS
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    # macOS needs an empty string after -i
-    SED_CMD="sed -i ''"
-else
-    # Linux version
-    SED_CMD="sed -i"
-fi
-
 # Update pyproject.toml
 if [ -f "pyproject.toml" ]; then
     echo "Updating pyproject.toml..."
-    $SED_CMD "s/name = \"$CURRENT_PROJECT_NAME\"/name = \"$NEW_PROJECT_NAME\"/g" pyproject.toml
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        # macOS version (needs separate arguments)
+        sed -i '' "s/name = \"$CURRENT_PROJECT_NAME\"/name = \"$NEW_PROJECT_NAME\"/g" pyproject.toml
+    else
+        # Linux version
+        sed -i "s/name = \"$CURRENT_PROJECT_NAME\"/name = \"$NEW_PROJECT_NAME\"/g" pyproject.toml
+    fi
 fi
 
 # Rename package directory
@@ -47,31 +44,60 @@ fi
 
 # Update imports in Python files
 echo "Updating Python imports..."
-find . -type f -name "*.py" | xargs grep -l "$CURRENT_PACKAGE_NAME" | xargs -I{} $SED_CMD "s/import $CURRENT_PACKAGE_NAME/import $NEW_PACKAGE_NAME/g" {}
-find . -type f -name "*.py" | xargs grep -l "$CURRENT_PACKAGE_NAME" | xargs -I{} $SED_CMD "s/from $CURRENT_PACKAGE_NAME/from $NEW_PACKAGE_NAME/g" {}
+find . -type f -name "*.py" | xargs grep -l "$CURRENT_PACKAGE_NAME" | while read file; do
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "s/import $CURRENT_PACKAGE_NAME/import $NEW_PACKAGE_NAME/g" "$file"
+        sed -i '' "s/from $CURRENT_PACKAGE_NAME/from $NEW_PACKAGE_NAME/g" "$file"
+    else
+        sed -i "s/import $CURRENT_PACKAGE_NAME/import $NEW_PACKAGE_NAME/g" "$file"
+        sed -i "s/from $CURRENT_PACKAGE_NAME/from $NEW_PACKAGE_NAME/g" "$file"
+    fi
+done
 
 # Update references in other files
 echo "Updating references in documentation..."
-find . -type f -name "*.md" | xargs grep -l "$CURRENT_PROJECT_NAME\|$CURRENT_PACKAGE_NAME" | xargs -I{} $SED_CMD "s/$CURRENT_PROJECT_NAME/$NEW_PROJECT_NAME/g" {}
-find . -type f -name "*.md" | xargs grep -l "$CURRENT_PROJECT_NAME\|$CURRENT_PACKAGE_NAME" | xargs -I{} $SED_CMD "s/$CURRENT_PACKAGE_NAME/$NEW_PACKAGE_NAME/g" {}
+find . -type f -name "*.md" | xargs grep -l "$CURRENT_PROJECT_NAME\|$CURRENT_PACKAGE_NAME" | while read file; do
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "s/$CURRENT_PROJECT_NAME/$NEW_PROJECT_NAME/g" "$file"
+        sed -i '' "s/$CURRENT_PACKAGE_NAME/$NEW_PACKAGE_NAME/g" "$file"
+    else
+        sed -i "s/$CURRENT_PROJECT_NAME/$NEW_PROJECT_NAME/g" "$file"
+        sed -i "s/$CURRENT_PACKAGE_NAME/$NEW_PACKAGE_NAME/g" "$file"
+    fi
+done
 
 # Update devcontainer settings
 if [ -f ".devcontainer/devcontainer.json" ]; then
     echo "Updating devcontainer settings..."
-    $SED_CMD "s/\"name\": \"$CURRENT_PROJECT_NAME\"/\"name\": \"$NEW_PROJECT_NAME\"/g" .devcontainer/devcontainer.json
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "s/\"name\": \"$CURRENT_PROJECT_NAME\"/\"name\": \"$NEW_PROJECT_NAME\"/g" .devcontainer/devcontainer.json
+    else
+        sed -i "s/\"name\": \"$CURRENT_PROJECT_NAME\"/\"name\": \"$NEW_PROJECT_NAME\"/g" .devcontainer/devcontainer.json
+    fi
 fi
 
 # Update VSCode settings
 if [ -f ".vscode/settings.json" ]; then
     echo "Updating VSCode settings..."
-    $SED_CMD "s/$CURRENT_PROJECT_NAME/$NEW_PROJECT_NAME/g" .vscode/settings.json
-    $SED_CMD "s/$CURRENT_PACKAGE_NAME/$NEW_PACKAGE_NAME/g" .vscode/settings.json
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "s/$CURRENT_PROJECT_NAME/$NEW_PROJECT_NAME/g" .vscode/settings.json
+        sed -i '' "s/$CURRENT_PACKAGE_NAME/$NEW_PACKAGE_NAME/g" .vscode/settings.json
+    else
+        sed -i "s/$CURRENT_PROJECT_NAME/$NEW_PROJECT_NAME/g" .vscode/settings.json
+        sed -i "s/$CURRENT_PACKAGE_NAME/$NEW_PACKAGE_NAME/g" .vscode/settings.json
+    fi
 fi
 
 # Update tests
 if [ -d "tests" ]; then
     echo "Updating test files..."
-    find ./tests -type f -name "*.py" | xargs grep -l "$CURRENT_PACKAGE_NAME" | xargs -I{} $SED_CMD "s/$CURRENT_PACKAGE_NAME/$NEW_PACKAGE_NAME/g" {}
+    find ./tests -type f -name "*.py" | xargs grep -l "$CURRENT_PACKAGE_NAME" | while read file; do
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' "s/$CURRENT_PACKAGE_NAME/$NEW_PACKAGE_NAME/g" "$file"
+        else
+            sed -i "s/$CURRENT_PACKAGE_NAME/$NEW_PACKAGE_NAME/g" "$file"
+        fi
+    done
 fi
 
 echo "Package rename completed successfully!"
