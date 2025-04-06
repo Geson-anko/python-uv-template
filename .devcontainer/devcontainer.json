@@ -1,0 +1,28 @@
+{
+    "name": "python-uv-template",
+    "build": {
+      "context": "../",
+      "dockerfile": "./Dockerfile"
+    },
+    "workspaceMount": "source=pamiq-ros,target=/workspace,type=volume",
+    "workspaceFolder": "/workspace",
+    "mounts": [
+      "source=uv-cache,target=/root/.cache/uv,type=volume",
+      "source=pip-cache,target=/root/.cache/pip,type=volume",
+      "source=pre-commit-cache,target=/root/.cache/pre-commit,type=volume"
+    ],
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "ms-python.python",
+          "tamasfe.even-better-toml",
+          "ms-azuretools.vscode-docker",
+          "github.vscode-github-actions"
+        ]
+      }
+    },
+    "containerEnv": {
+      "PYRIGHT_PYTHON_FORCE_VERSION": "latest"
+    },
+    "shutdownAction": "stopContainer"
+}
