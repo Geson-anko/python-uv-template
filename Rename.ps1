@@ -28,17 +28,17 @@ if (Test-Path "pyproject.toml") {
 # Rename package directory
 if (Test-Path "src\$CURRENT_PACKAGE_NAME") {
     Write-Host "Renaming package directory..."
-    
+
     # Create new directory if it doesn't exist
     if (-not (Test-Path "src\$NEW_PACKAGE_NAME")) {
         New-Item -Path "src\$NEW_PACKAGE_NAME" -ItemType Directory -Force | Out-Null
     }
-    
+
     # Copy all files (including hidden files)
     Get-ChildItem -Path "src\$CURRENT_PACKAGE_NAME" -Force | ForEach-Object {
         Copy-Item -Path $_.FullName -Destination "src\$NEW_PACKAGE_NAME\" -Recurse -Force
     }
-    
+
     # Remove old directory
     Remove-Item -Path "src\$CURRENT_PACKAGE_NAME" -Recurse -Force
 }
