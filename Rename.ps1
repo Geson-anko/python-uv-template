@@ -69,7 +69,7 @@ Get-ChildItem -Path . -Include "*.md" -Recurse | ForEach-Object {
 if (Test-Path ".devcontainer\devcontainer.json") {
     Write-Host "Updating devcontainer settings..."
     $content = Get-Content ".devcontainer\devcontainer.json" -Raw
-    $content = $content -replace """name"": ""$CURRENT_PROJECT_NAME""", """name"": ""$NEW_PROJECT_NAME"""
+    $content = $content -replace $CURRENT_PROJECT_NAME, $NEW_PROJECT_NAME
     Set-Content -Path ".devcontainer\devcontainer.json" -Value $content -NoNewline
 }
 

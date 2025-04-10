@@ -70,12 +70,13 @@ done
 if [ -f ".devcontainer/devcontainer.json" ]; then
     echo "Updating devcontainer settings..."
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        sed -i '' "s/\"name\": \"$CURRENT_PROJECT_NAME\"/\"name\": \"$NEW_PROJECT_NAME\"/g" .devcontainer/devcontainer.json
+        # macOS version
+        sed -i '' "s/$CURRENT_PROJECT_NAME/$NEW_PROJECT_NAME/g" .devcontainer/devcontainer.json
     else
-        sed -i "s/\"name\": \"$CURRENT_PROJECT_NAME\"/\"name\": \"$NEW_PROJECT_NAME\"/g" .devcontainer/devcontainer.json
+        # Linux version
+        sed -i "s/$CURRENT_PROJECT_NAME/$NEW_PROJECT_NAME/g" .devcontainer/devcontainer.json
     fi
 fi
-
 # Update VSCode settings
 if [ -f ".vscode/settings.json" ]; then
     echo "Updating VSCode settings..."
