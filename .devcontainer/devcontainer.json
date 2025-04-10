@@ -4,7 +4,10 @@
       "context": "../",
       "dockerfile": "./Dockerfile"
     },
+    // Default is volume mount (isolated environment from host and high disk performance.)
     "workspaceMount": "source=python-uv-template,target=/workspace,type=volume",
+    // You can also bind host directory.
+    // "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
     "workspaceFolder": "/workspace",
     "mounts": [
       "source=uv-cache,target=/root/.cache/uv,type=volume",
