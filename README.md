@@ -3,7 +3,9 @@
 [![GitHub stars](https://img.shields.io/github/stars/Geson-anko/python-uv-template?style=social)](https://github.com/Geson-anko/python-uv-template/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python Version](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![Main workflow](https://github.com/Geson-anko/python-uv-template/actions/workflows/main.yml/badge.svg)](https://github.com/Geson-anko/python-uv-template/actions/workflows/main.yml)
+[![Format & Lint](https://github.com/Geson-anko/python-uv-template/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/Geson-anko/python-uv-template/actions/workflows/pre-commit.yml)
+[![Test](https://github.com/Geson-anko/python-uv-template/actions/workflows/test.yml/badge.svg)](https://github.com/Geson-anko/python-uv-template/actions/workflows/test.yml)
+[![Type Check](https://github.com/Geson-anko/python-uv-template/actions/workflows/type-check.yaml/badge.svg)](https://github.com/Geson-anko/python-uv-template/actions/workflows/type-check.yaml)
 
 > ✨ A modern Python project template using UV package manager for blazing fast dependency management
 
@@ -13,8 +15,8 @@
 - 🧪 Pre-configured pytest with coverage
 - 🔍 Static type checking with pyright
 - 🧹 Code formatting with ruff
-- 🔄 CI/CD with GitHub Actions
-- 🐳 Dev container configuration for consistent development
+- 🔄 CI/CD with GitHub Actions (separate workflows for pre-commit, tests, and type checking)
+- 🐳 Docker and Docker Compose support for development environment
 - 📦 UV package management for fast dependency resolution
 - 📝 Pre-commit hooks for code quality
 - 🏗️ Project structure following best practices
@@ -61,29 +63,63 @@ make type
 make clean
 ```
 
+### Docker Development
+
+```bash
+# Build docker image
+make docker-build
+
+# Start development container
+make docker-up
+
+# Attach to development container
+make docker-attach
+
+# Stop containers
+make docker-down
+
+# Stop containers and remove volumes
+make docker-down-volume
+
+# Restart containers
+make docker-restart
+```
+
 ## 📂 Project Structure
 
 ```
 .
-├── .devcontainer/      # Dev container configuration
 ├── .github/            # GitHub workflows and templates
+│   └── workflows/
+│       ├── pre-commit.yml    # Format & lint workflow
+│       ├── test.yml          # Test workflow
+│       └── type-check.yaml   # Type checking workflow
+├── .vscode/            # VSCode configuration
+│   └── extensions.json
 ├── src/
 │   └── python_uv_template/  # Source code (will be renamed)
 ├── tests/              # Test files
 ├── .pre-commit-config.yaml
+├── docker-compose.yml  # Docker Compose configuration
+├── Dockerfile          # Docker image configuration
 ├── Makefile            # Development commands
 ├── pyproject.toml      # Project configuration
 ├── LICENSE
 └── README.md
 ```
 
-## 🏄‍♂️ Using Dev Container
+## 🏄‍♂️ Using Docker Environment
 
-This project includes a dev container configuration for VSCode or GitHub Codespaces.
+This project includes Docker configuration for consistent development environment.
 
-1. Install [Docker](https://www.docker.com/products/docker-desktop) and [VSCode](https://code.visualstudio.com/)
-2. Install the [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension in VSCode
-3. Open the project in VSCode and click "Reopen in Container" when prompted
+1. Install [Docker](https://www.docker.com/products/docker-desktop) and [Docker Compose](https://docs.docker.com/compose/)
+2. Build and start the development container:
+   ```bash
+   make docker-build
+   make docker-up
+   make docker-attach
+   ```
+3. The container includes all necessary tools and dependencies with proper shell completion
 
 ## 🧩 Dependencies
 
@@ -104,6 +140,23 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
+
+## 🔧 Configuration
+
+### GitHub Actions
+
+The project includes three separate workflows:
+
+- **pre-commit.yml**: Runs pre-commit hooks on all files
+- **test.yml**: Runs tests on multiple OS and Python versions (3.12, 3.13)
+- **type-check.yaml**: Runs pyright type checking
+
+### pyproject.toml
+
+- Configured for Python 3.12+
+- Uses UV for dependency management
+- Includes development dependencies for testing, linting, and type checking
+- Coverage configuration excludes test files
 
 ## 🙏 Acknowledgements
 

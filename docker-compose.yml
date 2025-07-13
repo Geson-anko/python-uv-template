@@ -1,0 +1,25 @@
+services:
+  dev:
+    container_name: python-uv-template
+    image: python-uv-template
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - python-uv-template:/workspace
+      - uv_cache:/root/.cache/uv
+      - pip_cache:/root/.cache/pip
+      - pre-commit_cache:/root/.cache/pre-commit
+    environment:
+      - PYRIGHT_PYTHON_FORCE_VERSION=latest
+    tty: true
+    working_dir: /workspace
+    command: /bin/bash
+    stop_grace_period: 0s
+
+volumes:
+  python-uv-template:
+    name: python-uv-template
+  uv_cache:
+  pip_cache:
+  pre-commit_cache:
