@@ -66,15 +66,15 @@ find . -type f -name "*.md" | xargs grep -l "$CURRENT_PROJECT_NAME\|$CURRENT_PAC
     fi
 done
 
-# Update devcontainer settings
-if [ -f ".devcontainer/devcontainer.json" ]; then
-    echo "Updating devcontainer settings..."
+# Update docker-compose.yml
+if [ -f "docker-compose.yml" ]; then
+    echo "Updating docker-compose.yml..."
     if [[ "$OSTYPE" == "darwin"* ]]; then
         # macOS version
-        sed -i '' "s/$CURRENT_PROJECT_NAME/$NEW_PROJECT_NAME/g" .devcontainer/devcontainer.json
+        sed -i '' "s/$CURRENT_PROJECT_NAME/$NEW_PROJECT_NAME/g" docker-compose.yml
     else
         # Linux version
-        sed -i "s/$CURRENT_PROJECT_NAME/$NEW_PROJECT_NAME/g" .devcontainer/devcontainer.json
+        sed -i "s/$CURRENT_PROJECT_NAME/$NEW_PROJECT_NAME/g" docker-compose.yml
     fi
 fi
 # Update VSCode settings
@@ -86,6 +86,26 @@ if [ -f ".vscode/settings.json" ]; then
     else
         sed -i "s/$CURRENT_PROJECT_NAME/$NEW_PROJECT_NAME/g" .vscode/settings.json
         sed -i "s/$CURRENT_PACKAGE_NAME/$NEW_PACKAGE_NAME/g" .vscode/settings.json
+    fi
+fi
+
+# Update Makefile
+if [ -f "Makefile" ]; then
+    echo "Updating Makefile..."
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "s/$CURRENT_PROJECT_NAME/$NEW_PROJECT_NAME/g" Makefile
+    else
+        sed -i "s/$CURRENT_PROJECT_NAME/$NEW_PROJECT_NAME/g" Makefile
+    fi
+fi
+
+# Update justfile
+if [ -f "justfile" ]; then
+    echo "Updating justfile..."
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "s/$CURRENT_PROJECT_NAME/$NEW_PROJECT_NAME/g" justfile
+    else
+        sed -i "s/$CURRENT_PROJECT_NAME/$NEW_PROJECT_NAME/g" justfile
     fi
 fi
 

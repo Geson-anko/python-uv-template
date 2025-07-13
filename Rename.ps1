@@ -65,12 +65,12 @@ Get-ChildItem -Path . -Include "*.md" -Recurse | ForEach-Object {
     }
 }
 
-# Update devcontainer settings
-if (Test-Path ".devcontainer\devcontainer.json") {
-    Write-Host "Updating devcontainer settings..."
-    $content = Get-Content ".devcontainer\devcontainer.json" -Raw
+# Update docker-compose.yml
+if (Test-Path "docker-compose.yml") {
+    Write-Host "Updating docker-compose.yml..."
+    $content = Get-Content "docker-compose.yml" -Raw
     $content = $content -replace $CURRENT_PROJECT_NAME, $NEW_PROJECT_NAME
-    Set-Content -Path ".devcontainer\devcontainer.json" -Value $content -NoNewline
+    Set-Content -Path "docker-compose.yml" -Value $content -NoNewline
 }
 
 # Update VSCode settings
@@ -80,6 +80,22 @@ if (Test-Path ".vscode\settings.json") {
     $content = $content -replace $CURRENT_PROJECT_NAME, $NEW_PROJECT_NAME
     $content = $content -replace $CURRENT_PACKAGE_NAME, $NEW_PACKAGE_NAME
     Set-Content -Path ".vscode\settings.json" -Value $content -NoNewline
+}
+
+# Update Makefile
+if (Test-Path "Makefile") {
+    Write-Host "Updating Makefile..."
+    $content = Get-Content "Makefile" -Raw
+    $content = $content -replace $CURRENT_PROJECT_NAME, $NEW_PROJECT_NAME
+    Set-Content -Path "Makefile" -Value $content -NoNewline
+}
+
+# Update justfile
+if (Test-Path "justfile") {
+    Write-Host "Updating justfile..."
+    $content = Get-Content "justfile" -Raw
+    $content = $content -replace $CURRENT_PROJECT_NAME, $NEW_PROJECT_NAME
+    Set-Content -Path "justfile" -Value $content -NoNewline
 }
 
 Write-Host "Package rename completed successfully!"
