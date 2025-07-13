@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     curl \
     make \
+    just \
     bash-completion \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/* \
@@ -21,7 +22,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Setup uv
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 ENV UV_LINK_MODE=copy
+
+# Setup shell completions and environment
 RUN echo 'eval "$(uv generate-shell-completion bash)"' >> ~/.bashrc \
+&& echo 'eval "$(just --completions bash)"' >> ~/.bashrc \
 && make venv \
 && uv run pre-commit install \
 && echo "eval '$(uv run python src/train.py -sc install=bash)'" >> ~/.bashrc \

@@ -46,6 +46,10 @@ make venv
 
 ### Development Tools
 
+You can use either `make` or `just` commands:
+
+#### Using Make
+
 ```bash
 # Run all checks (format, test, type check)
 make run
@@ -63,7 +67,31 @@ make type
 make clean
 ```
 
+#### Using Just
+
+```bash
+# Show available commands
+just
+
+# Run all checks (format, test, type check)
+just run
+
+# Format code
+just format
+
+# Run tests
+just test
+
+# Run type check
+just type
+
+# Clean up temporary files
+just clean
+```
+
 ### Docker Development
+
+#### Using Make
 
 ```bash
 # Build docker image
@@ -83,6 +111,28 @@ make docker-down-volume
 
 # Restart containers
 make docker-restart
+```
+
+#### Using Just
+
+```bash
+# Build docker image
+just docker-build
+
+# Start development container
+just docker-up
+
+# Attach to development container
+just docker-attach
+
+# Stop containers
+just docker-down
+
+# Stop containers and remove volumes
+just docker-down-volume
+
+# Restart containers
+just docker-restart
 ```
 
 ## 📂 Project Structure
@@ -125,7 +175,8 @@ This project includes Docker configuration for consistent development environmen
 
 - Python 3.12+
 - [UV](https://github.com/astral-sh/uv) - Modern Python package manager
-- Development tools installed automatically via `make venv`
+- Development tools installed automatically via `make venv` or `just venv`
+- Optional: [just](https://github.com/casey/just) - Command runner (alternative to make)
 
 ## 📄 License
 
