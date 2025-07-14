@@ -7,6 +7,8 @@
 [![Test](https://github.com/Geson-anko/python-uv-template/actions/workflows/test.yml/badge.svg)](https://github.com/Geson-anko/python-uv-template/actions/workflows/test.yml)
 [![Type Check](https://github.com/Geson-anko/python-uv-template/actions/workflows/type-check.yaml/badge.svg)](https://github.com/Geson-anko/python-uv-template/actions/workflows/type-check.yaml)
 
+**English** | [日本語](./README.ja.md)
+
 > ✨ A modern Python project template using UV package manager for blazing fast dependency management
 
 ## 📋 Features
@@ -42,6 +44,8 @@ cd your-new-repo
 
 # Setup virtual environment and install dependencies
 make venv
+# or using just
+just venv
 ```
 
 ### Development Tools

@@ -20,7 +20,7 @@
 - [ ] Is the title clear and descriptive, and does the description concisely explain the PR?
 - [ ] Have you confirmed your PR handles one specific change rather than bundling different changes together?
 - [ ] Have you listed all changes introduced in this PR?
-- [ ] Have you tested the PR locally using the `make run` command?
+- [ ] Have you tested the PR locally using the `make run` or `just run` command?
 
 ## Additional Notes
 
