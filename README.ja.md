@@ -36,16 +36,23 @@
 git clone https://github.com/yourusername/your-new-repo.git
 cd your-new-repo
 
-# プロジェクト名を変更（Linux/macOS）
-./rename.sh your-project-name
+# 対話式セットアップを実行（Linux/macOS）
+./setup.sh your-project-name
 
-# プロジェクト名を変更（Windows）
-.\Rename.ps1 your-project-name
+# 対話式セットアップを実行（Windows）
+.\Setup.ps1 your-project-name
 
-# 仮想環境のセットアップと依存関係のインストール
-make venv
-# または just を使用
-just venv
+# セットアップスクリプトは以下を実行します：
+# - プロジェクトのリネーム
+# - 使用言語の選択（英語/日本語）
+# - ビルドツールの選択（Make/Just）
+# - 不要なファイルのクリーンアップ
+# - シンプルなREADMEテンプレートの作成
+
+# セットアップ後、仮想環境を作成
+make venv  # Makeを選択した場合
+# または
+just venv  # Justを選択した場合
 ```
 
 ### 開発ツール

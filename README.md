@@ -36,16 +36,23 @@
 git clone https://github.com/yourusername/your-new-repo.git
 cd your-new-repo
 
-# Rename the project (Linux/macOS)
-./rename.sh your-project-name
+# Run the interactive setup (Linux/macOS)
+./setup.sh your-project-name
 
-# Rename the project (Windows)
-.\Rename.ps1 your-project-name
+# Run the interactive setup (Windows)
+.\Setup.ps1 your-project-name
 
-# Setup virtual environment and install dependencies
-make venv
-# or using just
-just venv
+# The setup script will:
+# - Rename your project
+# - Ask for your preferred language (English/Japanese)
+# - Ask for your preferred build tool (Make/Just)
+# - Clean up unnecessary files
+# - Create a simple README template
+
+# After setup, create virtual environment
+make venv  # if you chose Make
+# or
+just venv  # if you chose Just
 ```
 
 ### Development Tools
